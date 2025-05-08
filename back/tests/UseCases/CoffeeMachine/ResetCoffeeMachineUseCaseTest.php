@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\UsesCases\CoffeeMachine;
+namespace App\Tests\UseCases\CoffeeMachine;
 
 use App\UseCases\CoffeeMachine\Command\ResetCoffeeMachineUseCase;
 use App\UseCases\CoffeeMachine\Models\CoffeeMachine;
