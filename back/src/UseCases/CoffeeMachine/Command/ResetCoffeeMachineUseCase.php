@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\UseCases\CoffeeMachine\Command;
 
-use App\Entity\CoffeeMachine;
+use App\UseCases\CoffeeMachine\Models\CoffeeMachine;
 
 class ResetCoffeeMachineUseCase
 {

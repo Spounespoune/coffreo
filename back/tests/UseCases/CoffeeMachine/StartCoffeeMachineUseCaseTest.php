@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Tests\UsesCases\CoffeeMachine;
 
-use App\Entity\CoffeeMachine;
+use App\UseCases\CoffeeMachine\Command\StartCoffeeMachineUseCase;
+use App\UseCases\CoffeeMachine\Models\CoffeeMachine;
 use Exception;
 use PHPUnit\Framework\TestCase;
-use App\UseCases\CoffeeMachine\Command\StartCoffeeMachineUseCase;
 
 class StartCoffeeMachineUseCaseTest extends TestCase
 {
