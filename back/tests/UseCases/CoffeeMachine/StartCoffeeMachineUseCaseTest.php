@@ -5,19 +5,29 @@ declare(strict_types=1);
 namespace App\Tests\UseCases\CoffeeMachine;
 
 use App\UseCases\CoffeeMachine\Command\StartCoffeeMachineUseCase;
+use App\UseCases\CoffeeMachine\Infrastructure\Repository\Doctrine\CoffeeMachineRepository;
+use App\UseCases\CoffeeMachine\Infrastructure\Repository\InMemory\InMemoryCoffeeMachineRepository;
 use App\UseCases\CoffeeMachine\Models\CoffeeMachine;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
 class StartCoffeeMachineUseCaseTest extends TestCase
 {
+    private InMemoryCoffeeMachineRepository $inMemoryCoffeeMachineRepository;
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->inMemoryCoffeeMachineRepository = new InMemoryCoffeeMachineRepository();
+    }
+
     /**
      * @throws Exception
      */
     public function test_start_coffee_machine()
     {
         $coffeeMachine = new CoffeeMachine();
-        $startCoffeeMachineUseCase = new StartCoffeeMachineUseCase($coffeeMachine);
+        $startCoffeeMachineUseCase = new StartCoffeeMachineUseCase($this->inMemoryCoffeeMachineRepository, $coffeeMachine);
         $startCoffeeMachineUseCase->execute();
         $this->assertTrue($coffeeMachine->isStarted());
     }
@@ -28,7 +38,7 @@ class StartCoffeeMachineUseCaseTest extends TestCase
     public function test_start_coffee_machine_twice()
     {
         $coffeeMachine = new CoffeeMachine();
-        $startCoffeeMachineUseCase = new StartCoffeeMachineUseCase($coffeeMachine);
+        $startCoffeeMachineUseCase = new StartCoffeeMachineUseCase($this->inMemoryCoffeeMachineRepository, $coffeeMachine);
         $startCoffeeMachineUseCase->execute();
         $this->expectException(Exception::class);
         $startCoffeeMachineUseCase->execute();

@@ -4,12 +4,17 @@ declare(strict_types=1);
 
 namespace App\UseCases\CoffeeMachine\Command;
 
+use App\UseCases\CoffeeMachine\Infrastructure\Mapper\CoffeeMachineMapper;
+use App\UseCases\CoffeeMachine\Infrastructure\Repository\CoffeeMachineRepository;
 use App\UseCases\CoffeeMachine\Models\CoffeeMachine;
 use Exception;
 
-class StopCoffeeMachineUseCase
+readonly class StopCoffeeMachineUseCase
 {
-    public function __construct(private readonly CoffeeMachine $coffeeMachine)
+    public function __construct(
+        private CoffeeMachineRepository $coffeeMachineRepository,
+        private CoffeeMachine $coffeeMachine
+    )
     {
     }
 
@@ -23,5 +28,7 @@ class StopCoffeeMachineUseCase
         }
 
         $this->coffeeMachine->stop();
+        $coffeeMachineEntity = CoffeeMachineMapper::toCoffeeMachineEntity($this->coffeeMachine);
+        $this->coffeeMachineRepository->save($coffeeMachineEntity);
     }
 }
