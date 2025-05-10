@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\Doctrine\CoffeeMachineRepository;
+use App\UseCases\CoffeeMachine\Infrastructure\Repository\Doctrine\CoffeeMachineRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CoffeeMachineRepository::class)]
