@@ -4,16 +4,18 @@ declare(strict_types=1);
 
 namespace App\UseCases\CoffeeMachine\Command;
 
+use App\Entity\CoffeeMachine as CoffeeMachineEntity;
 use App\UseCases\CoffeeMachine\Infrastructure\Mapper\CoffeeMachineMapper;
 use App\UseCases\CoffeeMachine\Infrastructure\Repository\CoffeeMachineRepository;
-use App\UseCases\CoffeeMachine\Models\CoffeeMachine;
+use App\UseCases\CoffeeMachine\Models\CoffeeMachine as CoffeeMachineModel;
 use Exception;
 
 readonly class StartCoffeeMachineUseCase
 {
     public function __construct(
         private CoffeeMachineRepository $coffeeMachineRepository,
-        private CoffeeMachine $coffeeMachine
+        private CoffeeMachineModel      $coffeeMachineModel,
+        private CoffeeMachineEntity     $coffeeMachineEntity
     )
     {
     }
@@ -23,12 +25,12 @@ readonly class StartCoffeeMachineUseCase
      */
     public function execute(): void
     {
-        if ($this->coffeeMachine->isStarted()) {
+        if ($this->coffeeMachineModel->isStarted()) {
             throw new Exception('Coffee machine is already started');
         }
 
-        $this->coffeeMachine->start();
-        $coffeeMachineEntity = CoffeeMachineMapper::toCoffeeMachineEntity($this->coffeeMachine);
+        $this->coffeeMachineModel->start();
+        $coffeeMachineEntity = CoffeeMachineMapper::updateCoffeeMachineEntity($this->coffeeMachineEntity, $this->coffeeMachineModel);
         $this->coffeeMachineRepository->save($coffeeMachineEntity);
     }
 }
