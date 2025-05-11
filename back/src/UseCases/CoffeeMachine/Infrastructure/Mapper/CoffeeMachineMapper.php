@@ -13,10 +13,10 @@ class CoffeeMachineMapper
         $coffeeMachineModel = new CoffeeMachineModel();
 
         switch ($coffeeMachineEntity->getState()) {
-            case CoffeeMachineState::ON:
+            case CoffeeMachineState::ON->value:
                 $coffeeMachineModel->start();
                 break;
-            case CoffeeMachineState::RESET:
+            case CoffeeMachineState::RESET->value:
                 $coffeeMachineModel->reset();
                 break;
             default:
@@ -25,13 +25,11 @@ class CoffeeMachineMapper
         }
 
 
-        return new CoffeeMachineModel();
+        return $coffeeMachineModel;
     }
 
-    public static function toCoffeeMachineEntity(CoffeeMachineModel $coffeeMachineModel): CoffeeMachineEntity
+    public static function updateCoffeeMachineEntity(CoffeeMachineEntity $coffeeMachineEntity, CoffeeMachineModel $coffeeMachineModel): CoffeeMachineEntity
     {
-        $coffeeMachineEntity = new CoffeeMachineEntity();
-
         if ($coffeeMachineModel->isStarted()) {
             $coffeeMachineEntity->setState(CoffeeMachineState::ON->value);
             return $coffeeMachineEntity;

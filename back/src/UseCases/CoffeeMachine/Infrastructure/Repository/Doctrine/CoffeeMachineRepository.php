@@ -4,29 +4,24 @@ declare(strict_types=1);
 
 namespace App\UseCases\CoffeeMachine\Infrastructure\Repository\Doctrine;
 
-use App\Entity\CoffeeMachine as CoffeeMachineAlias;
-use App\Entity\CoffeeMachine as CoffeeMachineEntity;
-use App\UseCases\CoffeeMachine\Infrastructure\Mapper\CoffeeMachineMapper;
-use App\UseCases\CoffeeMachine\Models\CoffeeMachine;
+use App\Entity\CoffeeMachine;
+use App\UseCases\CoffeeMachine\Infrastructure\Repository\CoffeeMachineRepository as CoffeeMachineRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class CoffeeMachineRepository extends ServiceEntityRepository implements \App\UseCases\CoffeeMachine\Infrastructure\Repository\CoffeeMachineRepository
+class CoffeeMachineRepository extends ServiceEntityRepository implements CoffeeMachineRepositoryInterface
 {
-    public function __construct(
-        private readonly ManagerRegistry $registry,
-        private readonly CoffeeMachineMapper $coffeeMachineMapper
-    ){
-        parent::__construct($registry, CoffeeMachineAlias::class);
+    public function __construct(private readonly ManagerRegistry $registry)
+    {
+        parent::__construct($registry, CoffeeMachine::class);
     }
 
     public function get(): CoffeeMachine
     {
-        $coffeeMachineEntity = $this->findOneBy(['id' => 1]);
-        return $this->coffeeMachineMapper->toCoffeeMachineModel($coffeeMachineEntity);
+        return $this->findOneBy(['id' => 1]);
     }
 
-    public function save(CoffeeMachineEntity $coffeeMachine): void
+    public function save(CoffeeMachine $coffeeMachine): void
     {
         $this->registry->getManager()->persist($coffeeMachine);
         $this->registry->getManager()->flush();
