@@ -2,20 +2,19 @@
 
 namespace App\UseCases\CoffeeMachine\Infrastructure\Repository\InMemory;
 
-use App\Entity\CoffeeMachine as CoffeeMachineEntity;
+use App\Entity\CoffeeMachine;
 use App\UseCases\CoffeeMachine\Infrastructure\Repository\CoffeeMachineRepository;
-use App\UseCases\CoffeeMachine\Models\CoffeeMachine;
 
 class InMemoryCoffeeMachineRepository implements CoffeeMachineRepository
 {
-    private CoffeeMachineEntity $coffeeMachineEntity;
+    private CoffeeMachine $coffeeMachineEntity;
 
     public function get(): CoffeeMachine
     {
         return new CoffeeMachine();
     }
 
-    public function save(CoffeeMachineEntity $coffeeMachine): void
+    public function save(CoffeeMachine $coffeeMachine): void
     {
         $this->coffeeMachineEntity = $coffeeMachine;
     }
