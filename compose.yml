@@ -58,6 +58,7 @@ services:
     ports:
       - "3001:80"
     environment:
+      SERVER_NAME: ':80'
       MERCURE_JWT_SECRET: '7a427bbd14e9f80bbfc16c08ddd50267975a15ba326d9f98262724d3e7e26317'
       MERCURE_PUBLISHER_JWT_KEY: '28deae2d14d7af172dafa6bc8fe01f95284ad23264b83a16383dd32dcb6869dd'
       MERCURE_SUBSCRIBER_JWT_KEY: '28deae2d14d7af172dafa6bc8fe01f95284ad23264b83a16383dd32dcb6869dd'
