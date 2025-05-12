@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\UseCases\CoffeeMachine\Command;
 
 use App\Entity\CoffeeMachine as CoffeeMachineEntity;
+use App\UseCases\CoffeeMachine\CoffeeMachineState;
+use App\UseCases\CoffeeMachine\Handler\NotifierStatusHandler;
 use App\UseCases\CoffeeMachine\Infrastructure\Mapper\CoffeeMachineMapper;
 use App\UseCases\CoffeeMachine\Infrastructure\Repository\CoffeeMachineRepository;
 use App\UseCases\CoffeeMachine\Models\CoffeeMachine as CoffeeMachineModel;
@@ -15,7 +17,8 @@ readonly class StartCoffeeMachineUseCase
     public function __construct(
         private CoffeeMachineRepository $coffeeMachineRepository,
         private CoffeeMachineModel      $coffeeMachineModel,
-        private CoffeeMachineEntity     $coffeeMachineEntity
+        private CoffeeMachineEntity     $coffeeMachineEntity,
+        private NotifierStatusHandler   $notifierStatusHandler
     )
     {
     }
@@ -32,5 +35,6 @@ readonly class StartCoffeeMachineUseCase
         $this->coffeeMachineModel->start();
         $coffeeMachineEntity = CoffeeMachineMapper::updateCoffeeMachineEntity($this->coffeeMachineEntity, $this->coffeeMachineModel);
         $this->coffeeMachineRepository->save($coffeeMachineEntity);
+        $this->notifierStatusHandler->handle(['status' => CoffeeMachineState::ON->value]);
     }
 }

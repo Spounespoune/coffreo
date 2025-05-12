@@ -7,6 +7,7 @@ namespace App\Controller;
 use App\UseCases\CoffeeMachine\Command\ResetCoffeeMachineUseCase;
 use App\UseCases\CoffeeMachine\Command\StartCoffeeMachineUseCase;
 use App\UseCases\CoffeeMachine\Command\StopCoffeeMachineUseCase;
+use App\UseCases\CoffeeMachine\Handler\NotifierStatusHandler;
 use App\UseCases\CoffeeMachine\Infrastructure\Mapper\CoffeeMachineMapper;
 use App\UseCases\CoffeeMachine\Infrastructure\Repository\CoffeeMachineRepository;
 use Exception;
@@ -17,7 +18,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class CoffeeMachineController extends AbstractController
 {
-    public function __construct(private readonly CoffeeMachineMapper $coffeeMachineMapper)
+    public function __construct(
+        private readonly CoffeeMachineMapper $coffeeMachineMapper,
+        private readonly NotifierStatusHandler $notifierStatusHandler
+    )
     {
     }
 
@@ -37,7 +41,12 @@ class CoffeeMachineController extends AbstractController
     ): Response {
         $coffeeMachineEntity = $coffeeMachineRepository->get();
         $coffeeMachineModel = $this->coffeeMachineMapper->toCoffeeMachineModel($coffeeMachineEntity);
-        $startCoffeeMachineUseCase = new StartCoffeeMachineUseCase($coffeeMachineRepository, $coffeeMachineModel, $coffeeMachineEntity);
+        $startCoffeeMachineUseCase = new StartCoffeeMachineUseCase(
+            $coffeeMachineRepository,
+            $coffeeMachineModel,
+            $coffeeMachineEntity,
+            $this->notifierStatusHandler,
+        );
         $startCoffeeMachineUseCase->execute();
 
         return new Response('', Response::HTTP_OK);
