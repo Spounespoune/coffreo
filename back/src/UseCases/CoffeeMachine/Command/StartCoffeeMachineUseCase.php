@@ -10,6 +10,7 @@ use App\UseCases\CoffeeMachine\Handler\NotifierStatusHandler;
 use App\UseCases\CoffeeMachine\Infrastructure\Mapper\CoffeeMachineMapper;
 use App\UseCases\CoffeeMachine\Infrastructure\Repository\CoffeeMachineRepository;
 use App\UseCases\CoffeeMachine\Models\CoffeeMachine as CoffeeMachineModel;
+use App\UseCases\CoffeeMachine\ValueObject\CoffeeMachineStatus;
 use Exception;
 
 readonly class StartCoffeeMachineUseCase
@@ -35,6 +36,7 @@ readonly class StartCoffeeMachineUseCase
         $this->coffeeMachineModel->start();
         $coffeeMachineEntity = CoffeeMachineMapper::updateCoffeeMachineEntity($this->coffeeMachineEntity, $this->coffeeMachineModel);
         $this->coffeeMachineRepository->save($coffeeMachineEntity);
-        $this->notifierStatusHandler->handle(['status' => CoffeeMachineState::ON->value]);
+        $coffeeMachineStatus = new CoffeeMachineStatus(CoffeeMachineState::ON->value);
+        $this->notifierStatusHandler->handle($coffeeMachineStatus);
     }
 }

@@ -61,7 +61,12 @@ class CoffeeMachineController extends AbstractController
     ): Response {
         $coffeeMachineEntity = $coffeeMachineRepository->get();
         $coffeeMachineModel = $this->coffeeMachineMapper->toCoffeeMachineModel($coffeeMachineEntity);
-        $startCoffeeMachineUseCase = new StopCoffeeMachineUseCase($coffeeMachineRepository, $coffeeMachineModel, $coffeeMachineEntity);
+        $startCoffeeMachineUseCase = new StopCoffeeMachineUseCase(
+            $coffeeMachineRepository,
+            $coffeeMachineModel,
+            $coffeeMachineEntity,
+            $this->notifierStatusHandler,
+        );
         $startCoffeeMachineUseCase->execute();
 
         return new Response('', Response::HTTP_NO_CONTENT);
