@@ -49,7 +49,7 @@ class CoffeeMachineController extends AbstractController
         );
         $startCoffeeMachineUseCase->execute();
 
-        return new Response('', Response::HTTP_OK);
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 
     /**
@@ -64,7 +64,7 @@ class CoffeeMachineController extends AbstractController
         $startCoffeeMachineUseCase = new StopCoffeeMachineUseCase($coffeeMachineRepository, $coffeeMachineModel, $coffeeMachineEntity);
         $startCoffeeMachineUseCase->execute();
 
-        return new Response('', Response::HTTP_OK);
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 
     /**
@@ -79,6 +79,6 @@ class CoffeeMachineController extends AbstractController
         $startCoffeeMachineUseCase = new ResetCoffeeMachineUseCase($coffeeMachineRepository, $coffeeMachineModel, $coffeeMachineEntity);
         $startCoffeeMachineUseCase->execute();
 
-        return new Response('', Response::HTTP_OK);
+        return new Response('', Response::HTTP_NO_CONTENT);
     }
 }
