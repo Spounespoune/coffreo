@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\UseCases\CoffeeMachine\Handler;
 
 use App\UseCases\CoffeeMachine\Infrastructure\Notification\Notifier;
+use App\UseCases\CoffeeMachine\ValueObject\CoffeeMachineStatus;
 
 readonly class NotifierStatusHandler
 {
@@ -12,8 +13,8 @@ readonly class NotifierStatusHandler
     {
     }
 
-    public function handle(array $data): void
+    public function handle(CoffeeMachineStatus $coffeeMachineStatus): void
     {
-        $this->notifier->notify('coffee-machine/status', $data);
+        $this->notifier->notify('coffee-machine/status', $coffeeMachineStatus->toArray());
     }
 }
