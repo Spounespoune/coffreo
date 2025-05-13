@@ -9,6 +9,9 @@ use App\UseCases\CoffeeMachine\Infrastructure\Mapper\CoffeeMachineMapper;
 use App\UseCases\CoffeeMachine\Infrastructure\Repository\CoffeeMachineRepository;
 use App\UseCases\CoffeeMachine\Models\CoffeeMachine as CoffeeMachineModel;
 
+/*
+ * WIP
+ */
 readonly class ResetCoffeeMachineUseCase
 {
     public function __construct(
